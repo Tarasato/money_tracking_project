@@ -1,7 +1,6 @@
 // ignore_for_file: prefer_const_constructors, prefer_final_fields, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:money_tracking_project/views/subviews/income_view.dart';
 import 'package:money_tracking_project/views/subviews/main_view.dart';
 import 'package:money_tracking_project/views/subviews/outcome_view.dart';
@@ -27,15 +26,15 @@ class _HomeUIState extends State<HomeUI> {
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(FontAwesomeIcons.indent),
+            icon: ImageIcon(AssetImage('assets/icons/income.png')),
             label: 'Income',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
+            icon: ImageIcon(AssetImage('assets/icons/home.png')),
             label: 'Main',
           ),
           BottomNavigationBarItem(
-            icon: Icon(FontAwesomeIcons.outdent),
+            icon: ImageIcon(AssetImage('assets/icons/outcome.png')),
             label: 'Outcome',
           ),
         ],
