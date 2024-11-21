@@ -34,19 +34,21 @@ dependencies:
   font_awesome_flutter: ^10.8.0
   google_fonts: ^6.2.1
   http: ^1.2.2
+  icons_launcher: ^3.0.0
   image_picker: ^1.1.2
   intl: ^0.20.0
 
 icons_launcher:
-        image_path: "assets/icon/Icon.png"
+        image_path: "assets/icons/logo.png"
         platforms:
               android:
                       enable: true
+                      adaptive_icon_background: null
               ios:
                       enable: true
+                      adaptive_icon_background: null
 
 dev_dependencies:
-  icons_launcher: ^3.0.0
   flutter_lints: ^4.0.0
   flutter_test:
     sdk: flutter
