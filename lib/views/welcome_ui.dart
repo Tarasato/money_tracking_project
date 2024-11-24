@@ -81,9 +81,17 @@ class _WelcomeUIState extends State<WelcomeUI> {
                       ),
                     ),
                     style: ElevatedButton.styleFrom(
-                        backgroundColor: Color(0xFF3E7C78),
-                        elevation: 15,
-                        shadowColor: Color.fromARGB(255, 133, 225, 219)),
+                      elevation: 15,
+                      shadowColor: Color(0xFF1B5C58),
+                      backgroundColor: Color(0xFF3E7C78),
+                      fixedSize: Size(
+                        MediaQuery.of(context).size.width * 0.8,
+                        MediaQuery.of(context).size.height * 0.07,
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(50),
+                      ),
+                    ),
                   ),
                 ),
                 SizedBox(
@@ -94,12 +102,15 @@ class _WelcomeUIState extends State<WelcomeUI> {
                   children: [
                     Text('ยังไม่ได้ลงทะเบียน?',
                         style: TextStyle(
-                            fontSize: MediaQuery.of(context).size.height * 0.014
-                    )),
+                            fontSize:
+                                MediaQuery.of(context).size.height * 0.014)),
                     TextButton(
                       onPressed: () {
                         print('ลงทะเบียน');
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => RegisterUI()));
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => RegisterUI()));
                       },
                       child: Text(
                         'ลงทะเบียน',

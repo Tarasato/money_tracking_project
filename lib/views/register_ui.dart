@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, sort_child_properties_last
+// ignore_for_file: prefer_const_constructors, sort_child_properties_last, use_build_context_synchronously, prefer_is_empty
 
 import 'dart:convert';
 import 'dart:io';
@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:money_tracking_project/models/user.dart';
+import 'package:money_tracking_project/services/call_api.dart';
 import 'package:money_tracking_project/views/welcome_ui.dart';
 
 class RegisterUI extends StatefulWidget {
@@ -20,15 +22,15 @@ class _RegisterUIState extends State<RegisterUI> {
 
   bool _obscurePssword = true;
 
-  TextEditingController userFullname = TextEditingController(text: '');
-  TextEditingController userBirthDate = TextEditingController(text: '');
-  TextEditingController userName = TextEditingController(text: '');
-  TextEditingController userPassword = TextEditingController(text: '');
+  TextEditingController userFullNameCtrl = TextEditingController(text: '');
+  TextEditingController userBirthDateCtrl = TextEditingController(text: '');
+  TextEditingController userNameCtrl = TextEditingController(text: '');
+  TextEditingController userPasswordCtrl = TextEditingController(text: '');
 
   // สร้างตัวแปร image ให้เก็บไฟล์ภาพที่ถ่ายจากกล้อง/เลือกจากแกลลอรี่
   File? _imageSelected;
 
-  String? _image64Selected, _birthDateSelected;
+  String? _image64Selected, _BirthDateSelected;
 
   //method เปิดกล้องถ่ายรูป
   Future<void> _openCamera() async {
@@ -135,8 +137,8 @@ class _RegisterUIState extends State<RegisterUI> {
     //นำค่าวันที่ที่เลือกมาแสดงใน TextField
     if (_picker != null) {
       setState(() {
-        _birthDateSelected = _picker.toString().substring(0, 10); //2024-01-31
-        userBirthDate.text = convertToThaiDate(_picker); //31 มกราคม 2567
+        _BirthDateSelected = _picker.toString().substring(0, 10); //2024-01-31
+        userBirthDateCtrl.text = convertToThaiDate(_picker); //31 มกราคม 2567
       });
     }
   }
@@ -315,7 +317,7 @@ class _RegisterUIState extends State<RegisterUI> {
                         Padding(
                           padding: EdgeInsets.only(left: 20.0, right: 20.0),
                           child: TextField(
-                            controller: userFullname,
+                            controller: userFullNameCtrl,
                             decoration: InputDecoration(
                               labelStyle: TextStyle(
                                 color: Color(0xFF666666),
@@ -349,7 +351,7 @@ class _RegisterUIState extends State<RegisterUI> {
                               Expanded(
                                 child: Stack(children: [
                                   TextField(
-                                    controller: userBirthDate,
+                                    controller: userBirthDateCtrl,
                                     enabled: false,
                                     decoration: InputDecoration(
                                       labelStyle: TextStyle(
@@ -403,7 +405,7 @@ class _RegisterUIState extends State<RegisterUI> {
                           padding:
                               EdgeInsets.only(left: 20.0, right: 20.0, top: 30),
                           child: TextField(
-                            controller: userName,
+                            controller: userNameCtrl,
                             decoration: InputDecoration(
                               labelStyle: TextStyle(
                                 color: Color(0xFF666666),
@@ -433,7 +435,7 @@ class _RegisterUIState extends State<RegisterUI> {
                           padding:
                               EdgeInsets.only(left: 20.0, right: 20.0, top: 30),
                           child: TextField(
-                            controller: userPassword,
+                            controller: userPasswordCtrl,
                             obscureText: _obscurePssword,
                             decoration: InputDecoration(
                               labelStyle: TextStyle(
@@ -478,10 +480,41 @@ class _RegisterUIState extends State<RegisterUI> {
                             height: MediaQuery.of(context).size.height * 0.07,
                             child: ElevatedButton(
                               onPressed: () {
-                                Navigator.pushReplacement(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => WelcomeUI()));
+                                if (_imageSelected == null) {
+                                showWaringDialog(context,
+                                    'กรุณาถ่ายรูป/อัปโหลดรูปโปรไฟล์ด้วย');
+                              } else if (userFullNameCtrl.text.trim().length ==
+                                  0) {
+                                showWaringDialog(context, 'กรุณาป้อนชื่อ-สกุล');
+                              } else if (_BirthDateSelected == '' ||
+                                  _BirthDateSelected == null) {
+                                showWaringDialog(context, 'กรุณาเลือกวันเกิด');
+                              } else if (userNameCtrl.text.trim().length == 0) {
+                                showWaringDialog(
+                                    context, 'กรุณาป้อนชื่อผู้ใช้');
+                              } else if (userPasswordCtrl.text.trim().length ==
+                                  0) {
+                                showWaringDialog(context, 'กรุณาป้อนรหัสผ่าน');
+                              } else {
+                                User user = User(
+                                  userFullName: userFullNameCtrl.text,
+                                  userBirthDate: userBirthDateCtrl.text,
+                                  userName: userNameCtrl.text,
+                                  userPassword: userPasswordCtrl.text,
+                                  userImage: _image64Selected,
+                                );
+                                CallAPI.callRegisterAPI(user).then((value) {
+                                  if (value.message == '1') {
+                                    showCompleteDialog(
+                                            context, 'ลงทะเบียนสำเร็จ')
+                                        .then(
+                                            (value) => Navigator.pop(context));
+                                  } else {
+                                    showCompleteDialog(
+                                        context, 'เกิดข้อผิดพลาดในการลงทะเบียน กรุณาลองใหม่อีกครั้ง');
+                                  }
+                                });
+                              }
                               },
                               child: Text(
                                 'บันทึกการลงทะเบียน',

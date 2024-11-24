@@ -1,8 +1,10 @@
-// ignore_for_file: prefer_const_constructors, sort_child_properties_last
+// ignore_for_file: prefer_const_constructors, sort_child_properties_last, prefer_is_empty, use_build_context_synchronously
 
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:money_tracking_project/models/user.dart';
+import 'package:money_tracking_project/services/call_api.dart';
 import 'package:money_tracking_project/views/home_ui.dart';
 import 'package:money_tracking_project/views/welcome_ui.dart';
 
@@ -15,8 +17,8 @@ class LoginUI extends StatefulWidget {
 
 class _LoginUIState extends State<LoginUI> {
   bool _obscurePssword = true;
-  TextEditingController userName = TextEditingController(text: '');
-  TextEditingController userPassword = TextEditingController(text: '');
+  TextEditingController userNameCtrl = TextEditingController(text: '');
+  TextEditingController userPasswordCtrl = TextEditingController(text: '');
 
   showWaringDialog(context, msg) {
     showDialog(
@@ -103,7 +105,8 @@ class _LoginUIState extends State<LoginUI> {
             color: Colors.white,
           ),
           onPressed: () {
-            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => WelcomeUI()));
+            Navigator.pushReplacement(
+                context, MaterialPageRoute(builder: (context) => WelcomeUI()));
           },
         ),
       ),
@@ -138,7 +141,7 @@ class _LoginUIState extends State<LoginUI> {
                           padding:
                               EdgeInsets.only(left: 20.0, right: 20.0, top: 1),
                           child: TextField(
-                            controller: userName,
+                            controller: userNameCtrl,
                             decoration: InputDecoration(
                               labelStyle: TextStyle(
                                 color: Color(0xFF666666),
@@ -168,7 +171,7 @@ class _LoginUIState extends State<LoginUI> {
                           padding:
                               EdgeInsets.only(left: 20.0, right: 20.0, top: 30),
                           child: TextField(
-                            controller: userPassword,
+                            controller: userPasswordCtrl,
                             obscureText: _obscurePssword,
                             decoration: InputDecoration(
                                 labelStyle: TextStyle(
@@ -184,7 +187,7 @@ class _LoginUIState extends State<LoginUI> {
                                     FloatingLabelBehavior.always,
                                 enabledBorder: OutlineInputBorder(
                                   borderSide:
-                                      BorderSide(color: Color(0xFF3E7C78)),
+                                      BorderSide(color: Colors.grey),
                                   borderRadius: BorderRadius.circular(10.0),
                                 ),
                                 focusedBorder: OutlineInputBorder(
@@ -213,10 +216,36 @@ class _LoginUIState extends State<LoginUI> {
                             height: MediaQuery.of(context).size.height * 0.07,
                             child: ElevatedButton(
                               onPressed: () {
-                                Navigator.pushReplacement(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => HomeUI()));
+                                if (userNameCtrl.text.trim().length == 0) {
+                                  showWaringDialog(
+                                      context, 'กรุณาป้อนชื่อผู้ใช้');
+                                } else if (userPasswordCtrl.text
+                                        .trim()
+                                        .length ==
+                                    0) {
+                                  showWaringDialog(
+                                      context, 'กรุณาป้อนรหัสผ่าน');
+                                } else {
+                                  User user = User(
+                                    userName: userNameCtrl.text.trim(),
+                                    userPassword: userPasswordCtrl.text.trim(),
+                                  );
+                                  CallAPI.callCheckLoginAPI(user).then((value) {
+                                    if (value.message == '1') {
+                                      Navigator.pushReplacement(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => HomeUI(
+                                            user: value,
+                                          ),
+                                        ),
+                                      );
+                                    } else {
+                                      showWaringDialog(context,
+                                          "ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง");
+                                    }
+                                  });
+                                }
                               },
                               child: Text(
                                 'เข้าใช้งาน',
@@ -227,10 +256,10 @@ class _LoginUIState extends State<LoginUI> {
                                 ),
                               ),
                               style: ElevatedButton.styleFrom(
-                                  backgroundColor: Color(0xFF3E7C78),
-                                  elevation: 15,
-                                  shadowColor:
-                                      Color.fromARGB(255, 133, 225, 219)),
+                                backgroundColor: Color(0xFF3E7C78),
+                                elevation: 15,
+                                shadowColor: Color(0xFF1B5C58),
+                              ),
                             ),
                           ),
                         ),

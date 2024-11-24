@@ -1,23 +1,27 @@
-// ignore_for_file: prefer_const_constructors, prefer_final_fields, prefer_const_literals_to_create_immutables
+// ignore_for_file: prefer_const_constructors, prefer_final_fields, prefer_const_literals_to_create_immutables, must_be_immutable
 
 import 'package:flutter/material.dart';
+import 'package:money_tracking_project/models/money.dart';
+import 'package:money_tracking_project/models/user.dart';
 import 'package:money_tracking_project/views/subviews/income_view.dart';
 import 'package:money_tracking_project/views/subviews/main_view.dart';
 import 'package:money_tracking_project/views/subviews/outcome_view.dart';
 
 class HomeUI extends StatefulWidget {
-  const HomeUI({super.key});
+  User? user;
+  Money? money;
+  HomeUI({super.key, this.user, this.money});
 
   @override
   State<HomeUI> createState() => _HomeUIState();
 }
 
 class _HomeUIState extends State<HomeUI> {
-  List<Widget> _showView = [
-    IncomeViewUI(),
-    MainViewUI(),
-    OutcomeViewUI(),
-  ];
+  List<Widget> get _showView => [
+        IncomeViewUI(user: widget.user),
+        MainViewUI(user: widget.user),
+        OutcomeViewUI(user: widget.user),
+      ];
   int _selectedIndex = 1;
   @override
   Widget build(BuildContext context) {
