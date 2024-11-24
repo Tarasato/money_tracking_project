@@ -1,4 +1,4 @@
-# my_trip_project
+# money_tracking_project
 
 A new Flutter project Integrated with <a href="https://github.com/Tarasato/moneyTrackingAPI">API</a>.
 
