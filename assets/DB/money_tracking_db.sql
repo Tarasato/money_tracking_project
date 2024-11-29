@@ -30,8 +30,8 @@ CREATE TABLE `money_tb` (
   `moneyType` int(11) DEFAULT NULL,
   `userId` int(11) DEFAULT NULL,
   PRIMARY KEY (`moneyId`),
-  KEY `userId` (`userId`),
-  CONSTRAINT `money_tb_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `user_tb` (`userId`) ON DELETE CASCADE
+  KEY `userID` (`userId`),
+  CONSTRAINT `money_tb_ibfk_1` FOREIGN KEY (`userID`) REFERENCES `user_tb` (`userID`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -80,4 +80,4 @@ CREATE TABLE `user_tb` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-11-24 12:47:03
+-- Dump completed on 2024-11-24 19:07:47
