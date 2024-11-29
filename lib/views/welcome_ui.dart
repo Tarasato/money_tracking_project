@@ -1,10 +1,6 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, sort_child_properties_last, avoid_print
 
-import 'dart:math';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:money_tracking_project/views/home_ui.dart';
 import 'package:money_tracking_project/views/login_ui.dart';
 import 'package:money_tracking_project/views/register_ui.dart';
 

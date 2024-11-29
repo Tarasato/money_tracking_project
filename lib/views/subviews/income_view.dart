@@ -537,7 +537,7 @@ class _IncomeViewState extends State<IncomeViewUI> {
                             decoration: InputDecoration(
                               labelText: 'วัน เดือน ปีที่เงินเข้า',
                               labelStyle: TextStyle(
-                                color: Color(0xFF3E7C78),
+                                color: Colors.grey,
                               ),
                               hintText: 'DATE INCOME',
                               hintStyle: TextStyle(
@@ -547,7 +547,7 @@ class _IncomeViewState extends State<IncomeViewUI> {
                               floatingLabelBehavior:
                                   FloatingLabelBehavior.always,
                               enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: Colors.grey),
+                                borderSide: BorderSide(color: Color(0xFF3E7C78)),
                                 borderRadius: BorderRadius.circular(10.0),
                               ),
                               focusedBorder: OutlineInputBorder(

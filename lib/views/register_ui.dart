@@ -9,7 +9,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:money_tracking_project/models/user.dart';
 import 'package:money_tracking_project/services/call_api.dart';
-import 'package:money_tracking_project/views/welcome_ui.dart';
 
 class RegisterUI extends StatefulWidget {
   const RegisterUI({super.key});

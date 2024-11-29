@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, unrelated_type_equality_checks, unnecessary_string_interpolations, prefer_const_literals_to_create_immutables
+// ignore_for_file: prefer_const_constructors, unrelated_type_equality_checks, unnecessary_string_interpolations, prefer_const_literals_to_create_immutables, must_be_immutable
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
